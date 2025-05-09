@@ -3,7 +3,7 @@ from typing import List
 import requests
 from datetime import datetime
 
-from src.infrastructure.config import API_URL, AUTH_EMAIL, AUTH_PASSWORD
+from core.config import API_URL, AUTH_EMAIL, AUTH_PASSWORD
 from src.core.models import Event
 
 
