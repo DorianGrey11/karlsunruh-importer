@@ -1,8 +1,8 @@
 name: Weekly Event Sync
 
 on:
-  # schedule:
-    # - cron: '16 13 * * 0'
+  schedule:
+    - cron: '16 13 * * 0'
   workflow_dispatch:
 
 jobs:
@@ -14,7 +14,7 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install -r requirements.txt
-      - run: python scripts/sync_events.py
+      - run: python src/scripts/sync_events.py
         env:
           API_URL: ${{ secrets.API_URL }}
           AUTH_EMAIL: ${{ secrets.AUTH_EMAIL }}
