@@ -1,9 +1,9 @@
 import pkgutil
 import importlib
 import inspect
-from core.api_client import fetch_existing_events, send_events
-from core.models import Event
 from typing import List, Set, Tuple
+from src.core.api_client import fetch_existing_events, send_events
+from src.core.models import Event
 from src.adapters.sources.base import EventSource
 import src.adapters.sources as sources
 
