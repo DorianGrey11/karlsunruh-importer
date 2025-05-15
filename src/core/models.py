@@ -53,7 +53,7 @@ class Event(BaseModel):
     address: str
     category: Category | str
     description: str
-    end: str
+    end: Optional[str]
     image: str
     involved: list[dict]
     lat: float
