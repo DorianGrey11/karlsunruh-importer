@@ -14,7 +14,7 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install -r requirements.txt
-      - run: python src/scripts/sync_events.py
+      - run: PYTHONPATH=src python src/scripts/sync_events.py
         env:
           API_URL: ${{ secrets.API_URL }}
           AUTH_EMAIL: ${{ secrets.AUTH_EMAIL }}
