@@ -61,8 +61,8 @@ class Event(BaseModel):
     location: LocationId | str
     location2: Optional[str]
     name: str
-    organizers: list[GroupId]
-    ownedBy: list[UserId]
+    organizers: list[GroupId | str]
+    ownedBy: list[UserId | str]
     parent: Optional[str]
     parentListed: bool
     published: bool
