@@ -3,8 +3,8 @@ from datetime import datetime
 from typing import List
 import locale
 
-from core.config import BASE_URL
-from core.models import Event, LocationId, Location
+from src.core.config import BASE_URL
+from src.core.models import Event, LocationId, Location
 
 locale.setlocale(locale.LC_TIME, "de_DE")
 
