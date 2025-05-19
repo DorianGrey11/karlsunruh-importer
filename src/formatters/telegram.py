@@ -28,16 +28,16 @@ def get_telegram_message(events: List[Event], locations) -> str:
     lines = []
     days = sorted(grouped.keys(), key= lambda x: datetime.strptime(x,"%A, %d %b %Y"))
     for day in days:
-        lines.append(f"*📅 {day} 📅*")
+        lines.append(f"*📅  {day}  📅*")
         for event in grouped[day]:
             lines.append(
                 f"🕒{datetime.fromisoformat(event.start).strftime('%H:%M Uhr')}"
                 f"  [{event.name}]({BASE_URL}event/{event.id}?ref=telegram-broadcast)"
                 f"  📍{format_location(event.location, locations)}"
-                f"\n"
             )
+        lines.append("\n")
 
     message = (f"  _{days[0]} - {days[-1]}_ \n\n"
-               f"📣 *Veranstaltungen in* [Karlsunruh]({BASE_URL}?ref=telegram-broadcast) 📣 \n\n")
+               f"📣 *Veranstaltungen in* [Karlsunruh]({BASE_URL}?ref=telegram-broadcast) 📣 \n\n\n")
     message += "\n".join(lines)
     return message
