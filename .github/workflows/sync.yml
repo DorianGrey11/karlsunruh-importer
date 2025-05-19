@@ -15,6 +15,13 @@ jobs:
           python-version: '3.11'
       - run: pip install -r requirements.txt
 
+      - name: Setup locale
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y locales
+          sudo locale-gen de_DE.UTF-8
+          sudo update-locale
+
       - name: Sync Events
         run: PYTHONPATH=. python src/scripts/sync_events.py
         env:
