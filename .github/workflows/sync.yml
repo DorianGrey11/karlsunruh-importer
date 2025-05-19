@@ -25,6 +25,7 @@ jobs:
       - name: Broadcast Events
         run: PYTHONPATH=. python src/scripts/broadcast_events.py
         env:
+          LANG: de_DE.UTF-8
           API_URL: ${{ secrets.API_URL }}
           AUTH_EMAIL: ${{ secrets.AUTH_EMAIL }}
           AUTH_PASSWORD: ${{ secrets.AUTH_PASSWORD }}
