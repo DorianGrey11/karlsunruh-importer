@@ -4,7 +4,7 @@ from typing import List
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
-from src.core.models import Event, Category, Topic, LocationId, UserId, GroupId
+from src.core.models import CreateEvent, Category, Topic, LocationId, UserId, GroupId
 from src.adapters.sources.base import EventSource
 
 
@@ -21,12 +21,12 @@ def map_event_type_to_category(event_type: str) -> Category:
 
 
 class KohiSource(EventSource):
-    def get_events(self) -> List[Event]:
+    def get_events(self) -> List[CreateEvent]:
         response = requests.get("https://kohi.de", timeout=10)
         response.raise_for_status()
 
         soup = BeautifulSoup(response.text, "html.parser")
-        events: List[Event] = []
+        events: List[CreateEvent] = []
         for script_tag in soup.find_all("script", type="application/ld+json"):
             try:
                 data = json.loads(script_tag.string)
@@ -43,7 +43,7 @@ class KohiSource(EventSource):
                     else data["description"]
 
                 events.append(
-                    Event(
+                    CreateEvent(
                         address=f'{data["location"]["address"]["streetAddress"]}, {data["location"]["address"]["postalCode"]} {data["location"]["address"]["addressLocality"]}',
                         category=map_event_type_to_category(data["eventType"]),
                         description=full_description,

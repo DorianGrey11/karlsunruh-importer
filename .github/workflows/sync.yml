@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  sync:
+  sync-and-broadcast:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -14,8 +14,19 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install -r requirements.txt
-      - run: PYTHONPATH=. python src/scripts/sync_events.py
+
+      - name: Sync Events
+        run: PYTHONPATH=. python src/scripts/sync_events.py
         env:
           API_URL: ${{ secrets.API_URL }}
           AUTH_EMAIL: ${{ secrets.AUTH_EMAIL }}
           AUTH_PASSWORD: ${{ secrets.AUTH_PASSWORD }}
+
+      - name: Broadcast Events
+        run: PYTHONPATH=. python src/scripts/broadcast_events.py
+        env:
+          API_URL: ${{ secrets.API_URL }}
+          AUTH_EMAIL: ${{ secrets.AUTH_EMAIL }}
+          AUTH_PASSWORD: ${{ secrets.AUTH_PASSWORD }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}

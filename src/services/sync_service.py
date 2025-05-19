@@ -1,9 +1,10 @@
 import pkgutil
 import importlib
 import inspect
+from datetime import datetime
 from typing import List, Set, Tuple
-from src.core.api_client import fetch_existing_events, send_events
-from src.core.models import Event
+from src.core.api_client import fetch_events, send_events
+from src.core.models import CreateEvent, Event
 from src.adapters.sources.base import EventSource
 import src.adapters.sources as sources
 
@@ -18,13 +19,13 @@ def discover_sources() -> List[EventSource]:
     return sources_found
 
 
-def dedupe(scraped: List[Event], existing: List[Event]) -> List[Event]:
+def dedupe(scraped: List[CreateEvent], existing: List[Event]) -> List[CreateEvent]:
     existing_keys: Set[Tuple[str, str]] = {(e.name, e.start) for e in existing}
     return [e for e in scraped if (e.name, e.start) not in existing_keys]
 
 
 def run_sync():
-    all_events: List[Event] = []
+    all_events: List[CreateEvent] = []
     for source in discover_sources():
         try:
             events = source.get_events()
@@ -32,7 +33,7 @@ def run_sync():
         except Exception as e:
             print(f"Failed to fetch from {source.__class__.__name__}: {e}")
 
-    existing = fetch_existing_events()
+    existing = fetch_events(start_after=datetime.now())
     new_events = dedupe(all_events, existing)
 
     if new_events:

@@ -8,11 +8,14 @@ class UserId(Enum):
     KOHI = "be9638f8-22f9-463a-b223-d1da83e2fa89"
     KARLSUNRUH_IMPORTER = "574e37d0-381d-4629-96d2-af7ee19f330f"
 
+
 class LocationId(Enum):
     KOHI = "id:a9d73764-caf4-406d-8ec9-63635ed3a707"
 
+
 class GroupId(Enum):
     KOHI = "id:768040b3-7c05-4146-b11e-55229675d382"
+
 
 class Category(Enum):
     BAR_CAFE = "2a531521-817a-4d3b-a853-ca4bc254b1c3"
@@ -27,6 +30,7 @@ class Category(Enum):
     TREFFEN = "716f6ac1-5754-49be-bf9d-3cb206e22488"
     VORTRAG = "d96685b7-5b01-49b6-a15c-b9e394a6ed5a"
     WORKSHOP = "e8d49f15-33ab-4a6b-9386-f17edbe22d9c"
+
 
 class Topic(Enum):
     ANARCHISMUS = "e5cb34c9-9483-4c54-9960-2ed320b851fa"
@@ -49,7 +53,7 @@ class Topic(Enum):
     OEKOLOGIE = "93ecdc90-1099-4acb-bb34-e87912d71161"
 
 
-class Event(BaseModel):
+class CreateEvent(BaseModel):
     address: str
     category: Category | str
     description: str
@@ -69,3 +73,12 @@ class Event(BaseModel):
     start: str
     tags: list[str]
     topic: Topic | str
+
+
+class Event(CreateEvent):
+    id: str
+
+
+class Location(BaseModel):
+    id: LocationId | str
+    name: str
