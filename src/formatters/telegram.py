@@ -6,7 +6,7 @@ import locale
 from src.core.config import BASE_URL
 from src.core.models import Event, LocationId, Location
 
-locale.setlocale(locale.LC_TIME, "de_DE")
+locale.setlocale(locale.LC_TIME, "de_DE.UTF-8")
 
 
 def format_location(location: LocationId | str, locations: List[Location]):
