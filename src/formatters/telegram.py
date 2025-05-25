@@ -38,6 +38,6 @@ def get_telegram_message(events: List[Event], locations) -> str:
         lines.append("\n")
 
     message = (f"  _{days[0]} - {days[-1]}_ \n\n"
-               f"📣 *Veranstaltungen in* [Karlsunruh]({BASE_URL}?ref=telegram-broadcast) 📣 \n\n\n")
+               f"📣 *Veranstaltungen in* [KarlsUNRUH]({BASE_URL}?ref=telegram-broadcast) 📣 \n\n\n")
     message += "\n".join(lines)
     return message
