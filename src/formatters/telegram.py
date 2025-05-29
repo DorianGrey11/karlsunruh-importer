@@ -8,6 +8,11 @@ from src.core.models import Event, LocationId, Location
 
 locale.setlocale(locale.LC_TIME, "de_DE.UTF-8")
 
+clocks = {
+    0: "🕛", 1: "🕐", 2: "🕑", 3: "🕒", 4: "🕓", 5: "🕔", 6: "🕕", 7: "🕖", 8: "🕗", 9: "🕘", 10: "🕙", 11: "🕚",
+    12: "🕛", 13: "🕐", 14: "🕑", 15: "🕒", 16: "🕓", 17: "🕔", 18: "🕕", 19: "🕖", 20: "🕗", 21: "🕘", 22: "🕙", 23: "🕚"
+}
+
 
 def format_location(location: LocationId | str, locations: List[Location]):
     if location.startswith("id:"):
@@ -21,17 +26,18 @@ def format_location(location: LocationId | str, locations: List[Location]):
 
 def get_telegram_message(events: List[Event], locations) -> str:
     grouped = defaultdict(list)
-    for event in events:
-        day = datetime.fromisoformat(event.start).strftime("%A, %d %b %Y")
+    for event in sorted(events, key=lambda e: e.start):
+        day = datetime.fromisoformat(event.start).strftime("%A, %d. %B %Y")
         grouped[day].append(event)
 
     lines = []
-    days = sorted(grouped.keys(), key= lambda x: datetime.strptime(x,"%A, %d %b %Y"))
+    days = list(grouped.keys())
     for day in days:
         lines.append(f"*📅  {day}  📅*")
         for event in grouped[day]:
+            start = datetime.fromisoformat(event.start)
             lines.append(
-                f"🕒{datetime.fromisoformat(event.start).strftime('%H:%M Uhr')}"
+                f"{clocks[start.hour]}{start.strftime('%H:%M Uhr')}"
                 f"  [{event.name}]({BASE_URL}event/{event.id}?ref=telegram-broadcast)"
                 f"  📍{format_location(event.location, locations)}"
             )
