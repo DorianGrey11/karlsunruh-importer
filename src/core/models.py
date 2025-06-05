@@ -6,15 +6,18 @@ from pydantic import BaseModel
 
 class UserId(Enum):
     KOHI = "be9638f8-22f9-463a-b223-d1da83e2fa89"
+    P8 = "9c9951f1-60c8-4e5c-9be9-fb7d0e59bf78"
     KARLSUNRUH_IMPORTER = "574e37d0-381d-4629-96d2-af7ee19f330f"
 
 
 class LocationId(Enum):
     KOHI = "id:a9d73764-caf4-406d-8ec9-63635ed3a707"
+    P8 = "id:49dcab2a-afff-4c2e-a2f1-ab7f6bb6a099"
 
 
 class GroupId(Enum):
     KOHI = "id:768040b3-7c05-4146-b11e-55229675d382"
+    P8 = "id:50e0f008-9e08-4a1e-a8eb-3dc10cda360d"
 
 
 class Category(Enum):
@@ -54,11 +57,11 @@ class Topic(Enum):
 
 
 class CreateEvent(BaseModel):
-    address: str
+    address: Optional[str]
     category: Category | str
     description: str
     end: Optional[str]
-    image: str
+    image: str | None # TODO check if this should be an empty string
     involved: list[dict]
     lat: float
     lng: float

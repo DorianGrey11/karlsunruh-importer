@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from src.core.models import CreateEvent, Category, Topic, LocationId, UserId, GroupId
 from src.adapters.sources.base import EventSource
 
+KOHI_URL = "https://kohi.de/"
 
 def map_event_type_to_category(event_type: str) -> Category:
     event_type_mapping = {
@@ -22,10 +23,14 @@ def map_event_type_to_category(event_type: str) -> Category:
 
 class KohiSource(EventSource):
     def get_events(self) -> List[CreateEvent]:
-        response = requests.get("https://kohi.de", timeout=10)
-        response.raise_for_status()
+        try:
+            response = requests.get(KOHI_URL, timeout=10)
+            response.raise_for_status()
+            soup = BeautifulSoup(response.text, "html.parser")
+        except:
+            print("Failed to fetch events from KOHI.")
+            return []
 
-        soup = BeautifulSoup(response.text, "html.parser")
         events: List[CreateEvent] = []
         for script_tag in soup.find_all("script", type="application/ld+json"):
             try:

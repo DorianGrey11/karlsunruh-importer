@@ -52,10 +52,20 @@ def fetch_locations() -> List[Location]:
     return [Location(**l) for l in res.json()]
 
 
+
+def get_mime_type(extension: str) -> str:
+    mime_types = {
+        "jpg": "image/jpeg",
+        "svg": "image/svg+xml",
+        "tif": "image/tiff",
+        "ico": "image/vnd.microsoft.icon",
+    }
+    return mime_types.get(extension.lower(), f"image/{extension.lower()}")
+
 def send_image(url: str) -> str:
     res = requests.post(
         f"{API_URL}/media",
-        files={'media': (url.split("/")[-1], requests.get(url).content, 'image/webp')},
+        files={'media': (url.split("/")[-1], requests.get(url).content, get_mime_type(url.split(".")[-1]))},
         headers={'Authorization': get_token()},
         timeout=10
     )
