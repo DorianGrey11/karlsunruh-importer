@@ -75,7 +75,11 @@ def send_image(url: str) -> str:
 def send_events(events: List[CreateEvent]) -> None:
     for event in events:
         if event.image:
-            event.image = send_image(event.image)
+            try:
+                event.image = send_image(event.image)
+            except:
+                print(f"Failed to upload image for event '{event.name}', skipping image upload. Image: {event.image}")
+                event.image = ""
 
         res = requests.post(
             f"{API_URL}/events",
