@@ -2,10 +2,12 @@ from typing import List
 
 import requests
 from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 from src.core.models import CreateEvent, Category, Topic, LocationId, UserId, GroupId
 from src.adapters.sources.base import EventSource
 
 P8_API_URL = "https://backend.p-acht.org/api/graphql"
+
 
 def to_unicode_bold(text: str) -> str:
     normal = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
@@ -28,7 +30,6 @@ def richtext_to_unicode_text(document):
                 paragraph += text
             lines.append(paragraph)
     return "\n".join(lines)
-
 
 
 class P8Source(EventSource):
@@ -69,31 +70,32 @@ class P8Source(EventSource):
 
         events = []
         for event in response.json()["data"]["events"]:
-                start = datetime.fromisoformat(event["dateFrom"])
-                end = datetime.fromisoformat(event["dateTo"]) if event["dateTo"] else start + timedelta(hours=2)
-                events.append(
-                    CreateEvent(
-                        address=f'{event["location"]["street"]}, {event["location"]["zipcode"]} {event["location"]["city"]}',
-                        category=Category.KONZERT,
-                        description=richtext_to_unicode_text(event["description"]["document"]),
-                        end=end.isoformat(),
-                        image="https://backend.p-acht.org" + event["image"]["url"] if event["image"] else None,
-                        involved=[],
-                        lat=49.0016763,
-                        lng=8.407540161512713,
-                        location=LocationId.P8,
-                        location2=None,
-                        name=event["name"],
-                        organizers=[GroupId.P8],
-                        ownedBy=[UserId.P8, UserId.KARLSUNRUH_IMPORTER],
-                        parent=None,
-                        parentListed=False,
-                        published=True,
-                        start=start.isoformat(),
-                        tags=[],
-                        topic=Topic.KULTUR,
-                    )
+            start = datetime.fromisoformat(event["dateFrom"]).astimezone(ZoneInfo("Europe/Berlin"))
+            end = datetime.fromisoformat(event["dateTo"]).astimezone(ZoneInfo("Europe/Berlin")) \
+                if event["dateTo"] else start + timedelta(hours=2)
+            events.append(
+                CreateEvent(
+                    address=f'{event["location"]["street"]}, {event["location"]["zipcode"]} {event["location"]["city"]}',
+                    category=Category.KONZERT,
+                    description=richtext_to_unicode_text(event["description"]["document"]),
+                    end=end.isoformat(),
+                    image="https://backend.p-acht.org" + event["image"]["url"] if event["image"] else None,
+                    involved=[],
+                    lat=49.0016763,
+                    lng=8.407540161512713,
+                    location=LocationId.P8,
+                    location2=None,
+                    name=event["name"],
+                    organizers=[GroupId.P8],
+                    ownedBy=[UserId.P8, UserId.KARLSUNRUH_IMPORTER],
+                    parent=None,
+                    parentListed=False,
+                    published=True,
+                    start=start.isoformat(),
+                    tags=[],
+                    topic=Topic.KULTUR,
                 )
+            )
         return events
 
 
