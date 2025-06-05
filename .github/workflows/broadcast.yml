@@ -1,4 +1,4 @@
-name: Weekly Event Sync
+name: Broadcast Events
 
 on:
   schedule:
