@@ -18,10 +18,12 @@ def discover_sources() -> List[EventSource]:
                 sources_found.append(obj())
     return sources_found
 
+def event_key(e) -> Tuple[str, float]:
+    return e.name, datetime.fromisoformat(e.start).timestamp()
 
 def dedupe(scraped: List[CreateEvent], existing: List[Event]) -> List[CreateEvent]:
-    existing_keys: Set[Tuple[str, str]] = {(e.name, e.start) for e in existing}
-    return [e for e in scraped if (e.name, e.start) not in existing_keys]
+    existing_keys: Set[Tuple[str, float]] = {event_key(e) for e in existing}
+    return [e for e in scraped if event_key(e) not in existing_keys]
 
 
 def run_sync():

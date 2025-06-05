@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  sync-and-broadcast:
+  broadcast-events:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

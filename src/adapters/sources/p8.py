@@ -50,8 +50,6 @@ class P8Source(EventSource):
                 }
             image {
               url
-              ref
-              extension
             }
           }
         }
