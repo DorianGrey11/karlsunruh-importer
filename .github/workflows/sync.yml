@@ -17,7 +17,6 @@ jobs:
       - name: Sync Events
         run: PYTHONPATH=. python src/scripts/sync_events.py
         env:
-          BASE_URL: ${{ secrets.BASE_URL }}
           API_URL: ${{ secrets.API_URL }}
           AUTH_EMAIL: ${{ secrets.AUTH_EMAIL }}
           AUTH_PASSWORD: ${{ secrets.AUTH_PASSWORD }}

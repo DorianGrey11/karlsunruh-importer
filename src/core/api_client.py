@@ -87,3 +87,4 @@ def send_events(events: List[CreateEvent]) -> None:
             timeout=10
         )
         res.raise_for_status()
+        print(f"Event '{event.name}' created")
