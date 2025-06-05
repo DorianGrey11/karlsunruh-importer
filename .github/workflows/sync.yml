@@ -2,7 +2,7 @@ name: Weekly Event Sync
 
 on:
   schedule:
-    - cron: '16 13 * * 0'
+    - cron: '16 11 * * 0'
   workflow_dispatch:
 
 jobs:
@@ -14,14 +14,6 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install -r requirements.txt
-
-      - name: Setup locale
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y locales
-          sudo locale-gen de_DE.UTF-8
-          sudo update-locale
-
       - name: Sync Events
         run: PYTHONPATH=. python src/scripts/sync_events.py
         env:
@@ -29,14 +21,3 @@ jobs:
           API_URL: ${{ secrets.API_URL }}
           AUTH_EMAIL: ${{ secrets.AUTH_EMAIL }}
           AUTH_PASSWORD: ${{ secrets.AUTH_PASSWORD }}
-
-      - name: Broadcast Events
-        run: PYTHONPATH=. python src/scripts/broadcast_events.py
-        env:
-          LANG: de_DE.UTF-8
-          BASE_URL: ${{ secrets.BASE_URL }}
-          API_URL: ${{ secrets.API_URL }}
-          AUTH_EMAIL: ${{ secrets.AUTH_EMAIL }}
-          AUTH_PASSWORD: ${{ secrets.AUTH_PASSWORD }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
