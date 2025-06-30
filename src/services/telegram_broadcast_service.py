@@ -9,7 +9,7 @@ from src.core.config import TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
 
 TELEGRAM_API_URL = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
 
-def broadcast_upcoming_events(days_ahead: int = 8):
+def broadcast_upcoming_events(days_ahead: int = 5):
     upcoming_events: List[Event] = fetch_events(start_after=datetime.now(), start_before=datetime.now() + timedelta(days=days_ahead))
     if not upcoming_events:
         print("No upcoming events to broadcast.")
