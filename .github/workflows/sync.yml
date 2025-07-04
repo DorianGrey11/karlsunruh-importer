@@ -2,8 +2,8 @@ name: Event Sync
 
 on:
   schedule:
-    # Every Thursday at 12:16 am UTC
-    - cron: '16 12 * * 4'
+    # Every Thursday at 11:11 am UTC
+    - cron: '11 11 * * 4'
   workflow_dispatch:
 
 jobs:

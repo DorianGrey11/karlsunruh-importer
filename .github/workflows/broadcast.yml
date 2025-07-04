@@ -4,8 +4,8 @@ on:
   schedule:
       # Every Monday at 12:13 PM UTC
       - cron: '13 12 * * 1'
-      # Every Thursday at 2:13 PM UTC
-      - cron: '13 14 * * 4'
+      # Every Thursday at 12:13 PM UTC
+      - cron: '13 12 * * 4'
   workflow_dispatch:
 
 jobs:
