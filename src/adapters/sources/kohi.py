@@ -5,9 +5,10 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 from src.core.models import CreateEvent, Category, Topic, LocationId, UserId, GroupId
-from src.adapters.sources.base import EventSource
+from src.adapters.sources.base import EventSource, DAYS_AHEAD_TO_REQUEST
 
 KOHI_URL = "https://kohi.de/"
+
 
 def map_event_type_to_category(event_type: str) -> Category:
     event_type_mapping = {
@@ -40,7 +41,7 @@ class KohiSource(EventSource):
 
                 start = datetime.fromisoformat(data["startDate"])
                 if (start <= datetime.now(tz=start.tzinfo)
-                        or start > datetime.now(tz=start.tzinfo) + timedelta(days=120)):
+                        or start > datetime.now(tz=start.tzinfo) + timedelta(days=DAYS_AHEAD_TO_REQUEST)):
                     continue
 
                 event_infos = script_tag.find_previous("article").select_one(".eventInfos")

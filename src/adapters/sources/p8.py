@@ -4,7 +4,7 @@ import requests
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 from src.core.models import CreateEvent, Category, Topic, LocationId, UserId, GroupId
-from src.adapters.sources.base import EventSource
+from src.adapters.sources.base import EventSource, DAYS_AHEAD_TO_REQUEST
 
 P8_API_URL = "https://backend.p-acht.org/api/graphql"
 
@@ -57,7 +57,7 @@ class P8Source(EventSource):
         """
         variables = {
             "from": datetime.now().isoformat() + "Z",
-            "to": (datetime.now() + timedelta(days=120)).isoformat() + "Z"
+            "to": (datetime.now() + timedelta(days=DAYS_AHEAD_TO_REQUEST)).isoformat() + "Z"
         }
         try:
             response = requests.post(
