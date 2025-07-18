@@ -3,10 +3,8 @@ from typing import List
 from zoneinfo import ZoneInfo
 
 import requests
-
-from adapters.sources.base import DAYS_AHEAD_TO_REQUEST
 from src.core.models import CreateEvent, Category, Topic, LocationId, UserId, GroupId
-from src.adapters.sources.base import EventSource
+from src.adapters.sources.base import EventSource, DAYS_AHEAD_TO_REQUEST
 
 QUEERKASTLE_URL = "https://queerkastle.de/wp-json/tribe/events/v1/events/"
 
@@ -19,7 +17,7 @@ class QueerKAstleSource(EventSource):
                 params={
                     "starts_after": datetime.now().date().isoformat(),
                     "starts_before": (datetime.now() + timedelta(days=DAYS_AHEAD_TO_REQUEST)).date().isoformat(),
-                    "status":"publish",
+                    "status": "publish",
                     "per_page": 50,
                 },
                 timeout=10)
@@ -39,7 +37,7 @@ class QueerKAstleSource(EventSource):
                     image=event['image']['url'] if event['image'] else None,
                     involved=[],
                     lat=49.0041532,
-                    lng= 8.37001,
+                    lng=8.37001,
                     location=LocationId.QUEERKASTLE,
                     location2=None,
                     name=event['title'],
@@ -48,7 +46,8 @@ class QueerKAstleSource(EventSource):
                     parent=None,
                     parentListed=False,
                     published=True,
-                    start=datetime.fromisoformat(event['start_date']).astimezone(ZoneInfo(event['timezone'])).isoformat(),
+                    start=datetime.fromisoformat(event['start_date'])
+                    .astimezone(ZoneInfo(event['timezone'])).isoformat(),
                     tags=[],
                     topic=Topic.QUEERFEMINISMUS,
                 )
