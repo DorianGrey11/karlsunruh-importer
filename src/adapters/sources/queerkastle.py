@@ -34,7 +34,7 @@ class QueerKAstleSource(EventSource):
                     address=None,
                     category=Category.SONSTIGES,
                     description=html.unescape(event['description']) + "\n" + event['url'],
-                    end=datetime.fromisoformat(event['end_date']).astimezone(ZoneInfo(event['timezone'])).isoformat(),
+                    end=datetime.fromisoformat(event['end_date']).astimezone(ZoneInfo("Europe/Berlin")).isoformat(),
                     image=event['image']['url'] if event['image'] else None,
                     involved=[],
                     lat=49.0041532,
@@ -48,7 +48,7 @@ class QueerKAstleSource(EventSource):
                     parentListed=False,
                     published=True,
                     start=datetime.fromisoformat(event['start_date'])
-                    .astimezone(ZoneInfo(event['timezone'])).isoformat(),
+                    .astimezone(ZoneInfo("Europe/Berlin")).isoformat(),
                     tags=[],
                     topic=Topic.QUEERFEMINISMUS,
                 )
