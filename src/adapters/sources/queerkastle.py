@@ -1,3 +1,4 @@
+import html
 from datetime import datetime, timedelta
 from typing import List
 from zoneinfo import ZoneInfo
@@ -32,7 +33,7 @@ class QueerKAstleSource(EventSource):
                 CreateEvent(
                     address=None,
                     category=Category.SONSTIGES,
-                    description=event['description'] + "\n" + event['url'],
+                    description=html.unescape(event['description']) + "\n" + event['url'],
                     end=datetime.fromisoformat(event['end_date']).astimezone(ZoneInfo(event['timezone'])).isoformat(),
                     image=event['image']['url'] if event['image'] else None,
                     involved=[],
@@ -40,7 +41,7 @@ class QueerKAstleSource(EventSource):
                     lng=8.37001,
                     location=LocationId.QUEERKASTLE,
                     location2=None,
-                    name=event['title'],
+                    name=html.unescape(event['title']),
                     organizers=[GroupId.QUEERKASTLE],
                     ownedBy=[UserId.QUEERKASTLE, UserId.KARLSUNRUH_IMPORTER],
                     parent=None,
