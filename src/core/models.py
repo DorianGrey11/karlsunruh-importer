@@ -8,6 +8,7 @@ class UserId(Enum):
     KOHI = "be9638f8-22f9-463a-b223-d1da83e2fa89"
     P8 = "9c9951f1-60c8-4e5c-9be9-fb7d0e59bf78"
     COLA_TAXI_OKAY = "134f4d14-86fb-4a27-9bc7-79ef9be58ec1"
+    QUEERKASTLE = "c8853207-c310-46c2-a326-5b0b6b2fe8ef"
     KARLSUNRUH_IMPORTER = "574e37d0-381d-4629-96d2-af7ee19f330f"
 
 
@@ -15,12 +16,14 @@ class LocationId(Enum):
     KOHI = "id:a9d73764-caf4-406d-8ec9-63635ed3a707"
     P8 = "id:49dcab2a-afff-4c2e-a2f1-ab7f6bb6a099"
     COLA_TAXI_OKAY = "id:e3a6074e-14ea-4e3c-8416-252fd42a9ea4"
+    QUEERKASTLE = "id:05f7d306-b6ed-4103-9a41-1f5802e2f653"
 
 
 class GroupId(Enum):
     KOHI = "id:768040b3-7c05-4146-b11e-55229675d382"
     P8 = "id:50e0f008-9e08-4a1e-a8eb-3dc10cda360d"
     COLA_TAXI_OKAY = "id:0cbb44e8-6a62-4ada-8ca0-5a2780f66312"
+    QUEERKASTLE = "id:c3b4dc8e-6350-43f8-b50f-75f82649f354"
 
 
 class Category(Enum):

@@ -2,14 +2,16 @@ INSERT INTO groups (id, name, published, description, image)
 VALUES
   ("768040b3-7c05-4146-b11e-55229675d382",  'Kohi', true, '',''),
   ("50e0f008-9e08-4a1e-a8eb-3dc10cda360d", 'P8', true, '', ''),
-  ("0cbb44e8-6a62-4ada-8ca0-5a2780f66312", 'Cola Taxi Okay', true, '', '')
+  ("0cbb44e8-6a62-4ada-8ca0-5a2780f66312", 'Cola Taxi Okay', true, '', ''),
+  ("c3b4dc8e-6350-43f8-b50f-75f82649f354", 'QueerKAstle', true, '', '')
 ON CONFLICT DO NOTHING;
 
 INSERT INTO places (id, name, published)
 VALUES
   ("a9d73764-caf4-406d-8ec9-63635ed3a707",  'Kohi', true),
   ("49dcab2a-afff-4c2e-a2f1-ab7f6bb6a099", 'P8', true),
-  ("e3a6074e-14ea-4e3c-8416-252fd42a9ea4", 'Cola Taxi Okay', true)
+  ("e3a6074e-14ea-4e3c-8416-252fd42a9ea4", 'Cola Taxi Okay', true),
+  ("05f7d306-b6ed-4103-9a41-1f5802e2f653", 'QueerKAstle', true)
 ON CONFLICT DO NOTHING;
 
 INSERT INTO category (id, name, headline, description)
@@ -55,20 +57,23 @@ VALUES
     ("be9638f8-22f9-463a-b223-d1da83e2fa89", "kohi@example.com","KOHI", "$2a$10$GEGjR6DcT.sXNim./OV8AOLwshbgPZ8QNNB89vXOfK6Me4NyO5ZOy"),
     ("9c9951f1-60c8-4e5c-9be9-fb7d0e59bf78", "p8@example.com","P8", "$2a$10$GEGjR6DcT.sXNim./OV8AOLwshbgPZ8QNNB89vXOfK6Me4NyO5ZOy"),
     ("574e37d0-381d-4629-96d2-af7ee19f330f", "karlsunruh-importer@example.com","karlsunruh-importer", "$2a$10$GEGjR6DcT.sXNim./OV8AOLwshbgPZ8QNNB89vXOfK6Me4NyO5ZOy"),
-    ("134f4d14-86fb-4a27-9bc7-79ef9be58ec1", "hello@colataxiokay.com","ColaTaxiOkay", "$2a$10$GEGjR6DcT.sXNim./OV8AOLwshbgPZ8QNNB89vXOfK6Me4NyO5ZOy")
+    ("134f4d14-86fb-4a27-9bc7-79ef9be58ec1", "hello@colataxiokay.com","ColaTaxiOkay", "$2a$10$GEGjR6DcT.sXNim./OV8AOLwshbgPZ8QNNB89vXOfK6Me4NyO5ZOy"),
+    ("c8853207-c310-46c2-a326-5b0b6b2fe8ef", "info@queerkastle.de","QueerKAstle", "$2a$10$GEGjR6DcT.sXNim./OV8AOLwshbgPZ8QNNB89vXOfK6Me4NyO5ZOy")
 ON CONFLICT DO NOTHING;
 
 INSERT INTO groups_owned_by (group_id, user_id)
 VALUES
     ("768040b3-7c05-4146-b11e-55229675d382","be9638f8-22f9-463a-b223-d1da83e2fa89"),
     ("50e0f008-9e08-4a1e-a8eb-3dc10cda360d", "9c9951f1-60c8-4e5c-9be9-fb7d0e59bf78"),
-    ("0cbb44e8-6a62-4ada-8ca0-5a2780f66312", "134f4d14-86fb-4a27-9bc7-79ef9be58ec1")
+    ("0cbb44e8-6a62-4ada-8ca0-5a2780f66312", "134f4d14-86fb-4a27-9bc7-79ef9be58ec1"),
+    ("c3b4dc8e-6350-43f8-b50f-75f82649f354", "c8853207-c310-46c2-a326-5b0b6b2fe8ef")
 ON CONFLICT DO NOTHING;
 
 INSERT INTO places_owned_by (place_id, user_id)
 VALUES
     ("a9d73764-caf4-406d-8ec9-63635ed3a707","be9638f8-22f9-463a-b223-d1da83e2fa89"),
     ("49dcab2a-afff-4c2e-a2f1-ab7f6bb6a099", "9c9951f1-60c8-4e5c-9be9-fb7d0e59bf78"),
-    ("e3a6074e-14ea-4e3c-8416-252fd42a9ea4", "134f4d14-86fb-4a27-9bc7-79ef9be58ec1")
+    ("e3a6074e-14ea-4e3c-8416-252fd42a9ea4", "134f4d14-86fb-4a27-9bc7-79ef9be58ec1"),
+    ("05f7d306-b6ed-4103-9a41-1f5802e2f653", "c8853207-c310-46c2-a326-5b0b6b2fe8ef")
 ON CONFLICT DO NOTHING;
 
