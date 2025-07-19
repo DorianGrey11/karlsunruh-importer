@@ -1,12 +1,13 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import List
 from zoneinfo import ZoneInfo
 
 import requests
 from src.core.models import CreateEvent, Category, Topic, LocationId, UserId, GroupId
-from src.adapters.sources.base import EventSource
+from src.adapters.sources.base import EventSource, DAYS_AHEAD_TO_REQUEST
 
 COLA_TAXI_OKAY_URL = "https://cto.ekrem.space/api/events"
+
 
 class ColaTaxiOkaySource(EventSource):
     def get_events(self) -> List[CreateEvent]:
@@ -17,10 +18,10 @@ class ColaTaxiOkaySource(EventSource):
             print("Failed to fetch events from ColaTaxiOkay.")
             return []
 
-
         events: List[CreateEvent] = []
         for event in response.json()["events"]:
-            if not event['recurrence']:
+            if not event['recurrence'] and datetime.now().isoformat() < event['start'] < (
+                    datetime.now() + timedelta(days=DAYS_AHEAD_TO_REQUEST)).isoformat():
                 events.append(
                     CreateEvent(
                         address=None,
