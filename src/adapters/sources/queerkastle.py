@@ -8,6 +8,7 @@ from src.core.models import CreateEvent, Category, Topic, LocationId, UserId, Gr
 from src.adapters.sources.base import EventSource, DAYS_AHEAD_TO_REQUEST
 
 QUEERKASTLE_URL = "https://queerkastle.de/wp-json/tribe/events/v1/events/"
+QUEERKASTLE_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 
 class QueerKAstleSource(EventSource):
@@ -29,12 +30,17 @@ class QueerKAstleSource(EventSource):
 
         events: List[CreateEvent] = []
         for event in response.json()["events"]:
+            start = datetime.strptime(event["start_date"], QUEERKASTLE_DATE_FORMAT).replace(
+                tzinfo=ZoneInfo(event["timezone"]))
+            end = datetime.strptime(event["end_date"], QUEERKASTLE_DATE_FORMAT).replace(
+                tzinfo=ZoneInfo(event["timezone"])) \
+                if event["end_date"] else start + timedelta(hours=2)
             events.append(
                 CreateEvent(
                     address=None,
                     category=Category.SONSTIGES,
                     description=html.unescape(event['description']) + "\n" + event['url'],
-                    end=datetime.fromisoformat(event['end_date']).astimezone(ZoneInfo("Europe/Berlin")).isoformat(),
+                    end=end.isoformat(),
                     image=event['image']['url'] if event['image'] else None,
                     involved=[],
                     lat=49.0041532,
@@ -47,8 +53,7 @@ class QueerKAstleSource(EventSource):
                     parent=None,
                     parentListed=False,
                     published=True,
-                    start=datetime.fromisoformat(event['start_date'])
-                    .astimezone(ZoneInfo("Europe/Berlin")).isoformat(),
+                    start=start.isoformat(),
                     tags=[],
                     topic=Topic.QUEERFEMINISMUS,
                 )
