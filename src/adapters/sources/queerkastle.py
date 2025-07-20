@@ -37,15 +37,16 @@ class QueerKAstleSource(EventSource):
                 if event["end_date"] else start + timedelta(hours=2)
             events.append(
                 CreateEvent(
-                    address=None,
+                    address=f"{event['venue']['address']}, {event['venue']['zip']} {event['venue']['city']}",
                     category=Category.SONSTIGES,
                     description=html.unescape(event['description']) + "\n" + event['url'],
                     end=end.isoformat(),
                     image=event['image']['url'] if event['image'] else None,
                     involved=[],
-                    lat=49.0041532,
-                    lng=8.37001,
-                    location=LocationId.QUEERKASTLE,
+                    lat=49.0041532 if event["venue"]["venue"] == "Queeres Zentrum Karlsruhe" else 0,
+                    lng=8.37001 if event["venue"]["venue"] == "Queeres Zentrum Karlsruhe" else 0,
+                    location=LocationId.QUEERKASTLE if event["venue"]["venue"] == "Queeres Zentrum Karlsruhe"
+                    else event["venue"]["venue"],
                     location2=None,
                     name=html.unescape(event['title']),
                     organizers=[GroupId.QUEERKASTLE],
