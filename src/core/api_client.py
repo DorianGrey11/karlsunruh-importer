@@ -24,19 +24,30 @@ def get_token() -> str:
     return f"{(os.getenv('API_TOKEN') or request_auth_token()).strip()}"
 
 
-def fetch_events(start_after: Optional[datetime] = None, start_before: Optional[datetime] = None) -> List[Event]:
-    params = {}
+def fetch_events(
+        start_after: Optional[datetime] = None,
+        start_before: Optional[datetime] = None,
+        deactivated: Optional[bool] = None,
+        published: Optional[bool] = None,
+        canceled: Optional[bool] = None,
+) -> List[Event]:
     filters = {}
-    if start_after:
-        filters["startAfter"] = start_after.isoformat(timespec='seconds') + "Z"
-    if start_before:
-        filters["startBefore"] = start_before.isoformat(timespec='seconds') + "Z"
-    if filters:
-        params["filters"] = json.dumps(filters)
+
+    def add_filter(key, value, transform=lambda x: x):
+        if value is not None:
+            filters[key] = transform(value)
+
+    add_filter("startAfter", start_after, lambda dt: dt.isoformat(timespec='seconds') + "Z")
+    add_filter("startBefore", start_before, lambda dt: dt.isoformat(timespec='seconds') + "Z")
+    add_filter("deactivated", deactivated)
+    add_filter("published", published)
+    add_filter("canceled", canceled)
 
     res = requests.get(
         f"{API_URL}/events",
-        params=params,
+        params={
+            "filters": json.dumps(filters)
+        } if filters else None,
         timeout=10
     )
     res.raise_for_status()
@@ -52,7 +63,6 @@ def fetch_locations() -> List[Location]:
     return [Location(**l) for l in res.json()]
 
 
-
 def get_mime_type(extension: str) -> str:
     mime_types = {
         "jpg": "image/jpeg",
@@ -61,6 +71,7 @@ def get_mime_type(extension: str) -> str:
         "ico": "image/vnd.microsoft.icon",
     }
     return mime_types.get(extension.lower(), f"image/{extension.lower()}")
+
 
 def send_image(url: str) -> str:
     res = requests.post(

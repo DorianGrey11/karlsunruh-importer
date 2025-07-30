@@ -13,7 +13,11 @@ TELEGRAM_API_URL = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessag
 def broadcast_upcoming_events(days_ahead: int = 5):
     upcoming_events: List[Event] = fetch_events(
         start_after=datetime.now(),
-        start_before=datetime.now().replace(hour=0, minute=0) + timedelta(days=days_ahead))
+        start_before=datetime.now().replace(hour=0, minute=0) + timedelta(days=days_ahead),
+        published=True,
+        deactivated=False,
+        canceled=False,
+    )
     if not upcoming_events:
         print("No upcoming events to broadcast.")
         return
