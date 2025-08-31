@@ -41,7 +41,10 @@ class KinemathekSource(EventSource):
                     event_url = wp_theatre_event.find("a").get("href")
                     event_response = requests.get(event_url, timeout=10)
                     event_response.raise_for_status()
-                    event_soup = BeautifulSoup(event_response.text, "html.parser")
+                    event_page_soup = BeautifulSoup(event_response.text, "html.parser")
+                    event_soup = event_page_soup.find("div", id="filminhalt")
+                    if event_soup is None:
+                        continue
 
                     wp_theatre_event_datetimes = event_soup.find_all("div", class_="wp_theatre_event_datetime")
                     day, month, _ = wp_theatre_event_datetimes[1].get_text().split(".")
@@ -57,7 +60,12 @@ class KinemathekSource(EventSource):
 
                     description = "\n".join(
                         event_text.get_text() for event_text in
-                        event_soup.find_all("p")[1:-8]) + f"\n\n{event_url}"
+                        event_soup.find_all("p")[1:]) + f"\n\n{event_url}"
+
+                    figure = event_soup.find("figure", class_="wp-block-image")
+                    image = figure.find("img").get("src") \
+                        if figure is not None \
+                        else event_page_soup.find("meta", property="og:image").get("content")
 
                     events.append(
                         CreateEvent(
@@ -65,13 +73,13 @@ class KinemathekSource(EventSource):
                             category=Category.FILM,
                             description=description,
                             end=(start + timedelta(hours=2)).isoformat(),
-                            image=event_soup.find("meta", property="og:image").get("content"),
+                            image=image,
                             involved=[],
                             lat=49.0106085,
                             lng=8.396970535,
                             location=LocationId.KINEMATHEK,
                             location2=None,
-                            name=event_soup.find("title").text.replace(" – Kinemathek", ""),
+                            name=event_soup.find("div", class_="wp_theatre_prod_title").get_text(),
                             organizers=[GroupId.KINEMATHEK],
                             ownedBy=[UserId.KINEMATHEK, UserId.KARLSUNRUH_IMPORTER],
                             parent=None,
@@ -82,8 +90,8 @@ class KinemathekSource(EventSource):
                             topic=map_event_tag_to_topic(relevant_tag),
                         )
                     )
-            except:
-                print("Failed to fetch event from Kinemathek.")
+            except Exception as e:
+                print(f"Failed to fetch event from Kinemathek: {e}")
                 continue
         return events
 
