@@ -4,7 +4,8 @@ VALUES
   ("50e0f008-9e08-4a1e-a8eb-3dc10cda360d", 'P8', true, '', ''),
   ("0cbb44e8-6a62-4ada-8ca0-5a2780f66312", 'Cola Taxi Okay', true, '', ''),
   ("c3b4dc8e-6350-43f8-b50f-75f82649f354", 'QueerKAstle', true, '', ''),
-  ("ad4dd0f6-313e-4a4c-ba3b-4a41c7fc473f", 'Kinemathek', true, '', '')
+  ("ad4dd0f6-313e-4a4c-ba3b-4a41c7fc473f", 'Kinemathek', true, '', ''),
+  ("d22cee7b-9173-4185-9d9e-8c8a7826780c", 'Weiche Kanten', true, '', '')
 ON CONFLICT DO NOTHING;
 
 INSERT INTO places (id, name, published)
@@ -13,7 +14,8 @@ VALUES
   ("49dcab2a-afff-4c2e-a2f1-ab7f6bb6a099", 'P8', true),
   ("e3a6074e-14ea-4e3c-8416-252fd42a9ea4", 'Cola Taxi Okay', true),
   ("05f7d306-b6ed-4103-9a41-1f5802e2f653", 'QueerKAstle', true),
-  ("db59cde2-d31a-46ae-a75f-6e1760e51847", 'Kinemathek', true)
+  ("db59cde2-d31a-46ae-a75f-6e1760e51847", 'Kinemathek', true),
+  ("4884f7c4-0de4-45d2-bc9f-b703632a537e", 'Cafe Noir', true)
 ON CONFLICT DO NOTHING;
 
 INSERT INTO category (id, name, headline, description)
@@ -61,7 +63,9 @@ VALUES
     ("574e37d0-381d-4629-96d2-af7ee19f330f", "karlsunruh-importer@example.com","karlsunruh-importer", "$2a$10$GEGjR6DcT.sXNim./OV8AOLwshbgPZ8QNNB89vXOfK6Me4NyO5ZOy"),
     ("134f4d14-86fb-4a27-9bc7-79ef9be58ec1", "hello@colataxiokay.com","ColaTaxiOkay", "$2a$10$GEGjR6DcT.sXNim./OV8AOLwshbgPZ8QNNB89vXOfK6Me4NyO5ZOy"),
     ("c8853207-c310-46c2-a326-5b0b6b2fe8ef", "info@queerkastle.de","QueerKAstle", "$2a$10$GEGjR6DcT.sXNim./OV8AOLwshbgPZ8QNNB89vXOfK6Me4NyO5ZOy"),
-    ("bd4c503f-0554-4227-b7b2-a1817e02e0d9", "info@kinemathek-karslsruhe.de","QueerKAstle", "$2a$10$GEGjR6DcT.sXNim./OV8AOLwshbgPZ8QNNB89vXOfK6Me4NyO5ZOy")
+    ("bd4c503f-0554-4227-b7b2-a1817e02e0d9", "info@kinemathek-karslsruhe.de","QueerKAstle", "$2a$10$GEGjR6DcT.sXNim./OV8AOLwshbgPZ8QNNB89vXOfK6Me4NyO5ZOy"),
+    ("3c2e3bc9-6b84-424e-ac7d-7ccc23612647", "cafe-noir@riseup.net","Cafe Noir", "$2a$10$GEGjR6DcT.sXNim./OV8AOLwshbgPZ8QNNB89vXOfK6Me4NyO5ZOy"),
+    ("3f685bf5-0065-42da-badf-b211fbc504f5", "queerfem-ka@systemli.org","Weiche Kanten", "$2a$10$GEGjR6DcT.sXNim./OV8AOLwshbgPZ8QNNB89vXOfK6Me4NyO5ZOy")
 ON CONFLICT DO NOTHING;
 
 INSERT INTO groups_owned_by (group_id, user_id)
@@ -70,7 +74,8 @@ VALUES
     ("50e0f008-9e08-4a1e-a8eb-3dc10cda360d", "9c9951f1-60c8-4e5c-9be9-fb7d0e59bf78"),
     ("0cbb44e8-6a62-4ada-8ca0-5a2780f66312", "134f4d14-86fb-4a27-9bc7-79ef9be58ec1"),
     ("c3b4dc8e-6350-43f8-b50f-75f82649f354", "c8853207-c310-46c2-a326-5b0b6b2fe8ef"),
-    ("ad4dd0f6-313e-4a4c-ba3b-4a41c7fc473f", "bd4c503f-0554-4227-b7b2-a1817e02e0d9")
+    ("ad4dd0f6-313e-4a4c-ba3b-4a41c7fc473f", "bd4c503f-0554-4227-b7b2-a1817e02e0d9"),
+    ("d22cee7b-9173-4185-9d9e-8c8a7826780c", "3f685bf5-0065-42da-badf-b211fbc504f5")
 ON CONFLICT DO NOTHING;
 
 INSERT INTO places_owned_by (place_id, user_id)
@@ -79,6 +84,7 @@ VALUES
     ("49dcab2a-afff-4c2e-a2f1-ab7f6bb6a099", "9c9951f1-60c8-4e5c-9be9-fb7d0e59bf78"),
     ("e3a6074e-14ea-4e3c-8416-252fd42a9ea4", "134f4d14-86fb-4a27-9bc7-79ef9be58ec1"),
     ("05f7d306-b6ed-4103-9a41-1f5802e2f653", "c8853207-c310-46c2-a326-5b0b6b2fe8ef"),
-    ("db59cde2-d31a-46ae-a75f-6e1760e51847", "bd4c503f-0554-4227-b7b2-a1817e02e0d9")
+    ("db59cde2-d31a-46ae-a75f-6e1760e51847", "bd4c503f-0554-4227-b7b2-a1817e02e0d9"),
+    ("4884f7c4-0de4-45d2-bc9f-b703632a537e", "3c2e3bc9-6b84-424e-ac7d-7ccc23612647")
 ON CONFLICT DO NOTHING;
 

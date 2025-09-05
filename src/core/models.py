@@ -10,6 +10,8 @@ class UserId(Enum):
     COLA_TAXI_OKAY = "134f4d14-86fb-4a27-9bc7-79ef9be58ec1"
     QUEERKASTLE = "c8853207-c310-46c2-a326-5b0b6b2fe8ef"
     KINEMATHEK = "bd4c503f-0554-4227-b7b2-a1817e02e0d9"
+    CAFE_NOIR = "3c2e3bc9-6b84-424e-ac7d-7ccc23612647"
+    WEICHE_KANTEN = "3f685bf5-0065-42da-badf-b211fbc504f5"
     KARLSUNRUH_IMPORTER = "574e37d0-381d-4629-96d2-af7ee19f330f"
 
 
@@ -19,6 +21,7 @@ class LocationId(Enum):
     COLA_TAXI_OKAY = "id:e3a6074e-14ea-4e3c-8416-252fd42a9ea4"
     QUEERKASTLE = "id:05f7d306-b6ed-4103-9a41-1f5802e2f653"
     KINEMATHEK = "id:db59cde2-d31a-46ae-a75f-6e1760e51847"
+    CAFE_NOIR = "id:4884f7c4-0de4-45d2-bc9f-b703632a537e"
 
 
 class GroupId(Enum):
@@ -27,6 +30,7 @@ class GroupId(Enum):
     COLA_TAXI_OKAY = "id:0cbb44e8-6a62-4ada-8ca0-5a2780f66312"
     QUEERKASTLE = "id:c3b4dc8e-6350-43f8-b50f-75f82649f354"
     KINEMATHEK = "id:ad4dd0f6-313e-4a4c-ba3b-4a41c7fc473f"
+    WEICHE_KANTEN = "id:d22cee7b-9173-4185-9d9e-8c8a7826780c"
 
 
 class Category(Enum):
