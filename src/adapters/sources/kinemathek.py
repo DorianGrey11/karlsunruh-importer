@@ -42,7 +42,7 @@ class KinemathekSource(EventSource):
                     event_response = requests.get(event_url, timeout=10)
                     event_response.raise_for_status()
                     event_page_soup = BeautifulSoup(event_response.text, "html.parser")
-                    event_soup = event_page_soup.find("div", id="filminhalt")
+                    event_soup = event_page_soup.find("div", class_="filmdetails")
                     if event_soup is None:
                         continue
 
