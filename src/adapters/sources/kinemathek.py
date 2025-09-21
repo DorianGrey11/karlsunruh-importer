@@ -9,7 +9,7 @@ from src.adapters.sources.base import EventSource, DAYS_AHEAD_TO_REQUEST
 
 KINEMATHEK_SPIELPLAN_API_URL = "https://kinemathek-karlsruhe.de/wp-json/wp/v2/pages/9808"
 
-TAGS_TO_IMPORT = ["klima-krisen-utopien", "gemeinwohloekonomie"]
+TAGS_TO_IMPORT = ["klima-krisen-utopien", "gemeinwohloekonomie", "koop-kino"]
 
 
 def map_event_tag_to_topic(event_tag: str) -> Topic:
