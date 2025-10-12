@@ -36,7 +36,7 @@ class KohiSource(EventSource):
         for script_tag in soup.find_all("script", type="application/ld+json"):
             try:
                 data = json.loads(script_tag.string)
-                if not isinstance(data, dict) and data.get("@type") != "Event":
+                if not isinstance(data, dict) or data.get("@type") != "Event":
                     continue
 
                 start = datetime.fromisoformat(data["startDate"])
@@ -47,6 +47,9 @@ class KohiSource(EventSource):
                 event_infos = script_tag.find_previous("article").select_one(".eventInfos")
                 full_description = event_infos.get_text(separator="\n", strip=True) if event_infos \
                     else data["description"]
+                event_header = script_tag.find_previous("article").select_one(".flexbox__headline")
+                name = event_header.find("h2").contents[0] if event_infos \
+                    else data["name"].split("//")[0].strip()
 
                 events.append(
                     CreateEvent(
@@ -60,7 +63,7 @@ class KohiSource(EventSource):
                         lng=8.407540161512713,
                         location=LocationId.KOHI,
                         location2=None,
-                        name=data["name"].split("//")[0].strip(),
+                        name=name,
                         organizers=[GroupId.KOHI],
                         ownedBy=[UserId.KOHI, UserId.KARLSUNRUH_IMPORTER],
                         parent=None,
