@@ -32,6 +32,11 @@ class GroupId(Enum):
     KINEMATHEK = "id:ad4dd0f6-313e-4a4c-ba3b-4a41c7fc473f"
     WEICHE_KANTEN = "id:d22cee7b-9173-4185-9d9e-8c8a7826780c"
 
+class RepeatingEventId(Enum):
+    TeamMeatCool = "revent:96631ac5-dc86-4aa7-9a6d-af3dc2e3b83d"
+    OpenArtsClub = "revent:0a68c6b4-47f3-4907-9280-330426bd7650"
+    PsstPlayClap = "revent:60bc0ed0-ff8f-418e-ae0b-3780b4b9271b"
+
 
 class Category(Enum):
     BAR_CAFE = "2a531521-817a-4d3b-a853-ca4bc254b1c3"
