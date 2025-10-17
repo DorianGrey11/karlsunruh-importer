@@ -36,7 +36,7 @@ class QueerKAstleSource(EventSource):
                 end = datetime.strptime(event["end_date"], QUEERKASTLE_DATE_FORMAT).replace(
                     tzinfo=ZoneInfo(event["timezone"])) \
                     if event["end_date"] else start + timedelta(hours=2)
-                venue = event["venue"] if type(event["venue"]) is list else event["venue"]
+                venue = event["venue"][0] if type(event["venue"]) is list else event["venue"]
                 events.append(
                     CreateEvent(
                         address=f"{venue['address']}, {venue['zip']} {venue['city']}",
