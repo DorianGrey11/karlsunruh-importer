@@ -30,35 +30,40 @@ class QueerKAstleSource(EventSource):
 
         events: List[CreateEvent] = []
         for event in response.json()["events"]:
-            start = datetime.strptime(event["start_date"], QUEERKASTLE_DATE_FORMAT).replace(
-                tzinfo=ZoneInfo(event["timezone"]))
-            end = datetime.strptime(event["end_date"], QUEERKASTLE_DATE_FORMAT).replace(
-                tzinfo=ZoneInfo(event["timezone"])) \
-                if event["end_date"] else start + timedelta(hours=2)
-            events.append(
-                CreateEvent(
-                    address=f"{event['venue']['address']}, {event['venue']['zip']} {event['venue']['city']}",
-                    category=Category.SONSTIGES,
-                    description=html.unescape(event['description']) + "\n" + event['url'],
-                    end=end.isoformat(),
-                    image=event['image']['url'] if event['image'] else None,
-                    involved=[],
-                    lat=49.0041532 if event["venue"]["venue"] == "Queeres Zentrum Karlsruhe" else 0,
-                    lng=8.37001 if event["venue"]["venue"] == "Queeres Zentrum Karlsruhe" else 0,
-                    location=LocationId.QUEERKASTLE if event["venue"]["venue"] == "Queeres Zentrum Karlsruhe"
-                    else event["venue"]["venue"],
-                    location2=None,
-                    name=html.unescape(event['title']),
-                    organizers=[GroupId.QUEERKASTLE],
-                    ownedBy=[UserId.QUEERKASTLE, UserId.KARLSUNRUH_IMPORTER],
-                    parent=None,
-                    parentListed=False,
-                    published=True,
-                    start=start.isoformat(),
-                    tags=[],
-                    topic=Topic.QUEERFEMINISMUS,
+            try:
+                start = datetime.strptime(event["start_date"], QUEERKASTLE_DATE_FORMAT).replace(
+                    tzinfo=ZoneInfo(event["timezone"]))
+                end = datetime.strptime(event["end_date"], QUEERKASTLE_DATE_FORMAT).replace(
+                    tzinfo=ZoneInfo(event["timezone"])) \
+                    if event["end_date"] else start + timedelta(hours=2)
+                venue = event["venue"] if type(event["venue"]) is list else event["venue"]
+                events.append(
+                    CreateEvent(
+                        address=f"{venue['address']}, {venue['zip']} {venue['city']}",
+                        category=Category.SONSTIGES,
+                        description=html.unescape(event['description']) + "\n" + event['url'],
+                        end=end.isoformat(),
+                        image=event['image']['url'] if event['image'] else None,
+                        involved=[],
+                        lat=49.0041532 if venue["venue"] == "Queeres Zentrum Karlsruhe" else 0,
+                        lng=8.37001 if venue["venue"] == "Queeres Zentrum Karlsruhe" else 0,
+                        location=LocationId.QUEERKASTLE if venue["venue"] == "Queeres Zentrum Karlsruhe"
+                        else venue["venue"],
+                        location2=None,
+                        name=html.unescape(event['title']),
+                        organizers=[GroupId.QUEERKASTLE],
+                        ownedBy=[UserId.QUEERKASTLE, UserId.KARLSUNRUH_IMPORTER],
+                        parent=None,
+                        parentListed=False,
+                        published=True,
+                        start=start.isoformat(),
+                        tags=[],
+                        topic=Topic.QUEERFEMINISMUS,
+                    )
                 )
-            )
+            except Exception:
+                print(f"Error with Event: '{event['title']}'")
+                continue
         return events
 
 
