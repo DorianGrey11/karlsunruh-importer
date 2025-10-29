@@ -1,4 +1,4 @@
-import html
+import html2text
 from datetime import datetime, timedelta
 from typing import List
 from zoneinfo import ZoneInfo
@@ -10,6 +10,16 @@ from src.adapters.sources.base import EventSource, DAYS_AHEAD_TO_REQUEST
 QUEERKASTLE_URL = "https://queerkastle.de/wp-json/tribe/events/v1/events/"
 QUEERKASTLE_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
+class HTML2Text(html2text.HTML2Text):
+    def __init__(self):
+        super().__init__()
+        self.bodywidth = 0
+        self.ignore_links = True
+        self.ignore_emphasis = True
+
+converter = HTML2Text()
+def convert(html_input):
+    return converter.handle(html_input).replace("\\.",".").strip()
 
 class QueerKAstleSource(EventSource):
     def get_events(self) -> List[CreateEvent]:
@@ -41,7 +51,7 @@ class QueerKAstleSource(EventSource):
                     CreateEvent(
                         address=f"{venue['address']}, {venue['zip']} {venue['city']}",
                         category=Category.SONSTIGES,
-                        description=html.unescape(event['description']) + "\n" + event['url'],
+                        description=convert(event['description']) + "\n" + event['url'],
                         end=end.isoformat(),
                         image=event['image']['url'] if event['image'] else None,
                         involved=[],
@@ -50,7 +60,7 @@ class QueerKAstleSource(EventSource):
                         location=LocationId.QUEERKASTLE if venue["venue"] == "Queeres Zentrum Karlsruhe"
                         else venue["venue"],
                         location2=None,
-                        name=html.unescape(event['title']),
+                        name=convert(event['title']),
                         organizers=[GroupId.QUEERKASTLE],
                         ownedBy=[UserId.QUEERKASTLE, UserId.KARLSUNRUH_IMPORTER],
                         parent=None,
