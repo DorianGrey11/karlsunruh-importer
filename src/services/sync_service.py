@@ -19,7 +19,7 @@ def discover_sources() -> List[EventSource]:
     return sources_found
 
 def event_key(e) -> Tuple[str, float]:
-    return e.name.strip(), datetime.fromisoformat(e.start).timestamp()
+    return e.name.lower().strip(), datetime.fromisoformat(e.start).timestamp()
 
 def dedupe(scraped: List[CreateEvent], existing: List[Event]) -> List[CreateEvent]:
     existing_keys: Set[Tuple[str, float]] = {event_key(e) for e in existing}
