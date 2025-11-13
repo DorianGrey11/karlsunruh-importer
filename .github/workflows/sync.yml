@@ -10,7 +10,7 @@ on:
 
 jobs:
   sync-events:
-    runs-on: ubuntu-latest
+    runs-on: carbonrunner-1vcpu-ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
